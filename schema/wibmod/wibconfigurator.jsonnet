@@ -47,6 +47,26 @@ local types = {
                 
     ], doc="FEMB channel settings"),
 
+    wib_pulser_settings: s.record("WIBPulserSettings", [
+
+        s.field("enabled_0", self.bool, false,
+	        doc="Enable WIB pulser for FEMB 0"),
+        s.field("enabled_1", self.bool, false,
+	        doc="Enable WIB pulser for FEMB 0"), 
+        s.field("enabled_2", self.bool, false,
+	        doc="Enable WIB pulser for FEMB 0"),
+        s.field("enabled_3", self.bool, false,
+	        doc="Enable WIB pulser for FEMB 0"),
+	s.field("pulse_dac", self.value, 0,
+		doc="WIB pulser DAC setting. 16 bits [0-65535]"),
+	s.field("pulse_period", self.value, 2000,
+		doc="WIB pulser period in ADC clock units (512 ns). 21 bits [0-2097151]"),
+	s.field("pulse_phase", self.value, 0,
+		doc="WIB pulser phase relative to digitization clock [0-31]"),
+	s.field("pulse_duration", self.value, 255,
+		doc="WIB pulser pulse duration in system clock units (16 ns). 27 bits [0-134217727]")
+    ], doc="WIB Pulser settings"),
+
     settings: s.record("WIBSettings", [
   
         s.field("cold", self.bool, false,
@@ -61,8 +81,9 @@ local types = {
         s.field("femb0", self.femb_settings, doc="Settings for FEMB in slot 0"),
         s.field("femb1", self.femb_settings, doc="Settings for FEMB in slot 1"),
         s.field("femb2", self.femb_settings, doc="Settings for FEMB in slot 2"),
-        s.field("femb3", self.femb_settings, doc="Settings for FEMB in slot 3")
-        
+        s.field("femb3", self.femb_settings, doc="Settings for FEMB in slot 3"),
+
+	s.field("wib_pulser", self.wib_pulser_settings, doc="Settings for WIB pulser")
     ], doc="WIB system settings (argument to settings)"),
     
     conf: s.record("WIBConf", [

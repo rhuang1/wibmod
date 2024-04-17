@@ -144,6 +144,16 @@ WIBConfigurator::do_settings(const data_t& payload)
   req.set_pulser(conf.pulser);
   req.set_adc_test_pattern(conf.adc_test_pattern);
   req.set_detector_type(conf.detector_type);
+  wib::ConfigureWIB::ConfigureWIBPulser* wib_pulser_conf = new wib::ConfigureWIB::ConfigureWIBPulser();
+  wib_pulser_conf->add_femb_en(conf.wib_pulser.enabled_0);
+  wib_pulser_conf->add_femb_en(conf.wib_pulser.enabled_1);
+  wib_pulser_conf->add_femb_en(conf.wib_pulser.enabled_2);
+  wib_pulser_conf->add_femb_en(conf.wib_pulser.enabled_3);
+  wib_pulser_conf->set_pulse_dac(conf.wib_pulser.pulse_dac);
+  wib_pulser_conf->set_pulse_period(conf.wib_pulser.pulse_period);
+  wib_pulser_conf->set_pulse_phase(conf.wib_pulser.pulse_phase);
+  wib_pulser_conf->set_pulse_duration(conf.wib_pulser.pulse_duration);
+  req.set_allocated_wib_pulser(wib_pulser_conf);
 
   for(size_t iFEMB = 0; iFEMB < 4; iFEMB++)
   {

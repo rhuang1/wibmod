@@ -19,7 +19,11 @@ local cs = {
   gain_selector:         s.number('gain',         dtype='i4', constraints=nc(minimum=0, maximum=3),  doc='Channel gain selector: 14, 25, 7.8, 4.7 mV/fC (0 - 3)'),
   pulse_dac_selector:    s.number('pulse_dac',    dtype='i4', constraints=nc(minimum=0, maximum=63), doc='Pulser DAC setting [0-63]'),
   buffering_selector:    s.number('buffering',    dtype='i4', constraints=nc(minimum=0, maximum=2),  doc='0 (no buffer), 1 (se buffer), 2 (sedc buffer)'),
-  detector_type_selector:s.number('detector_type',dtype='i4', constraints=nc(minimum=0, maximum=3),  doc='Detector type: 0 (use WIB default), 1 (upper APA), 2 (lower APA), 3 (CRP)'), 
+  detector_type_selector:s.number('detector_type',dtype='i4', constraints=nc(minimum=0, maximum=3),  doc='Detector type: 0 (use WIB default), 1 (upper APA), 2 (lower APA), 3 (CRP)'),
+  wib_pulser_dac_selector:      s.number('wib_pulser_dac',     dtype='i4', constraints=nc(minimum=0, maximum=65535), doc='WIB pulser DAC setting [0-65535]'),
+  wib_pulser_period_selector:   s.number('wib_pulser_period',  dtype='i4', constraints=nc(minimum=0, maximum=2097151), doc='WIB pulser period in 512 ns units [0-2097151]'),
+  wib_pulser_phase_selector:    s.number('wib_pulser_phase',   dtype='i4', constraints=nc(minimum=0, maximum=31), doc='WIB pulser phase in 16 ns units [0-31]'),
+  wib_pulser_duration_selector: s.number('wib_pulser_duration',dtype='i4', constraints=nc(minimum=0, maximum=134217727), doc='WIB pulser duration in 16 ns units [0-134217727]'),
  
   wib: s.record('wib', [
     s.field('name',    types.string, default="", doc='server name (?)'),
@@ -40,6 +44,11 @@ local cs = {
     s.field('gain_match',   types.flag,                 default=true,        doc="Switch to enable gain matching for pulser amplitude"),
     s.field('buffering',    self.buffering_selector,    default=0,           doc='0 (no buffer), 1 (se buffer), 2 (sedc buffer)'),
     s.field('detector_type',self.detector_type_selector,default=0,           doc='Detector type: 0 (use WIB default), 1 (upper APA), 2 (lower APA), 3 (CRP)'),
+    s.field('wib_pulser',   types.flag,                 default=false,       doc="Switch to enable WIB on-board pulser"),
+    s.field('wib_pulser_dac',      self.wib_pulser_dac_selector,      default=0,    doc="WIB pulser 16-bit DAC [0-65535]"),
+    s.field('wib_pulser_period',   self.wib_pulser_period_selector,   default=2000, doc="WIB pulser period in 512 ns units [0-2097151]"),
+    s.field('wib_pulser_phase',    self.wib_pulser_phase_selector,    default=0,    doc="WIB pulser phase in 16 ns units [0-31]"),
+    s.field('wib_pulser_duration', self.wib_pulser_duration_selector, default=255,  doc="WIB pulser duration in 16 ns units [0-134217727]"),
   ]),
 
   wibmod_gen: s.record('wibmod_gen', [
