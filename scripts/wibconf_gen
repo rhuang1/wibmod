@@ -117,6 +117,7 @@ def cli(
             pulse_dac    = wibmod.pulse_dac,
             pulser       = wibmod.pulser,
             buf          = wibmod.buffering,
+            line_driver  = wibmod.line_driver,
 	    detector_type= wibmod.detector_type,
             wib_pulser_en       = wibmod.wib_pulser,
             wib_pulser_dac      = wibmod.wib_pulser_dac,

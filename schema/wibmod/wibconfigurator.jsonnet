@@ -11,6 +11,8 @@ local types = {
     
     bool : s.boolean("Bool", doc="true/false"),
 
+    list : s.sequence("List", self.value, doc="A list of digital values"),
+
     femb_settings: s.record("FEMBSettings", [
     
         s.field("enabled", self.bool, 1,
@@ -43,7 +45,10 @@ local types = {
         s.field("strobe_delay", self.value, 255,
                 doc="64MHz periods to skip after 2MHz edge for strobe (pulser offset 0-255)"),
         s.field("strobe_length", self.value, 255,
-                doc="Length of strobe in 64MHz periods (pulser length 0-255)")
+                doc="Length of strobe in 64MHz periods (pulser length 0-255)"),
+
+	s.field("line_driver", self.list, [],
+	 	doc="0 (Default), 1 (Short), 2 (25 m warm), 3 (35 m warm), 4 (25 m cold), 5 (35 m cold). Can submit up to 2 values for the two COLDATA.")
                 
     ], doc="FEMB channel settings"),
 

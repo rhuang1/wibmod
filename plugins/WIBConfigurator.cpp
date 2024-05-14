@@ -76,6 +76,14 @@ WIBConfigurator::populate_femb_conf(wib::ConfigureWIB::ConfigureFEMB *femb_conf,
   femb_conf->set_strobe_skip(conf.strobe_skip);
   femb_conf->set_strobe_delay(conf.strobe_delay);
   femb_conf->set_strobe_length(conf.strobe_length);
+
+  for (int i = 0; i < sizeof(conf.line_driver) / sizeof(conf.line_driver[0]); i++) {
+    if (i >= 2) {      
+      TLOG_DEBUG(0) <<  "Warning: tried to pass more than 2 line driver values to FEMB configuration";
+      break;
+    }
+    femb_conf->add_line_driver(conf.line_driver[i]);
+  }
 }
 
 void 
