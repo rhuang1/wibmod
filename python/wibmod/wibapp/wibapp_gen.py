@@ -23,7 +23,7 @@ from daqconf.core.daqmodule import DAQModule
 def get_wib_app(nickname, 
                 endpoint, 
                 version, gain, gain_match, shaping_time, baseline, pulse_dac, pulser, buf, detector_type,
-                line_driver,
+                coldadc_conf, line_driver,
                 wib_pulser_en, wib_pulser_dac, wib_pulser_period, wib_pulser_phase, wib_pulser_duration,
                 host="localhost"):
     '''
@@ -47,6 +47,11 @@ def get_wib_app(nickname,
                                  )
                              )]
     else:
+        coldadc_inputs = dict()
+        coldadc_regs = ['reg_0', 'reg_4', 'reg_24', 'reg_25', 'reg_26', 'reg_27', 'reg_29', 'reg_30']
+        for idx, val in enumerate(coldadc_conf):
+            coldadc_inputs[coldadc_regs[idx]] = val
+        print(coldadc_inputs)
         modules += [DAQModule(name = nickname,
                              plugin = 'WIBConfigurator',
                              conf = wib.WIBConf(wib_addr = endpoint,
@@ -57,6 +62,7 @@ def get_wib_app(nickname,
                                      femb1 = wib.FEMBSettings(gain=gain, gain_match=gain_match, peak_time=shaping_time, baseline=baseline, pulse_dac=pulse_dac, buffering=buf, test_cap=pulser, line_driver=line_driver),
                                      femb2 = wib.FEMBSettings(gain=gain, gain_match=gain_match, peak_time=shaping_time, baseline=baseline, pulse_dac=pulse_dac, buffering=buf, test_cap=pulser, line_driver=line_driver),
                                      femb3 = wib.FEMBSettings(gain=gain, gain_match=gain_match, peak_time=shaping_time, baseline=baseline, pulse_dac=pulse_dac, buffering=buf, test_cap=pulser, line_driver=line_driver),
+                                     coldadc_settings = wib.ColdADCSettings(coldadc_inputs),
                                      wib_pulser = wib.WIBPulserSettings(enabled_0=wib_pulser_en, enabled_1=wib_pulser_en, enabled_2=wib_pulser_en, enabled_3=wib_pulser_en, pulse_dac=wib_pulser_dac, pulse_period=wib_pulser_period, pulse_phase=wib_pulser_phase, pulse_duration=wib_pulser_duration)
                                      )
                                  )

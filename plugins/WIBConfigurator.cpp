@@ -76,13 +76,13 @@ WIBConfigurator::populate_femb_conf(wib::ConfigureWIB::ConfigureFEMB *femb_conf,
   femb_conf->set_strobe_skip(conf.strobe_skip);
   femb_conf->set_strobe_delay(conf.strobe_delay);
   femb_conf->set_strobe_length(conf.strobe_length);
-
-  for (int i = 0; i < sizeof(conf.line_driver) / sizeof(conf.line_driver[0]); i++) {
+  
+  for (int i = 0; i < conf.line_driver.size(); i++) {
     if (i >= 2) {      
-      TLOG_DEBUG(0) <<  "Warning: tried to pass more than 2 line driver values to FEMB configuration";
+      TLOG() <<  "Warning: tried to pass more than 2 line driver values to FEMB configuration";
       break;
     }
-    femb_conf->add_line_driver(conf.line_driver[i]);
+    femb_conf->add_line_driver(conf.line_driver.at(i));
   }
 }
 
@@ -152,6 +152,18 @@ WIBConfigurator::do_settings(const data_t& payload)
   req.set_pulser(conf.pulser);
   req.set_adc_test_pattern(conf.adc_test_pattern);
   req.set_detector_type(conf.detector_type);
+
+  wib::ConfigureWIB::ConfigureCOLDADC* coldadc_conf = new wib::ConfigureWIB::ConfigureCOLDADC();
+  coldadc_conf->set_reg_0(conf.coldadc_settings.reg_0);
+  coldadc_conf->set_reg_4(conf.coldadc_settings.reg_4);
+  coldadc_conf->set_reg_24(conf.coldadc_settings.reg_24);
+  coldadc_conf->set_reg_25(conf.coldadc_settings.reg_25);
+  coldadc_conf->set_reg_26(conf.coldadc_settings.reg_26);
+  coldadc_conf->set_reg_27(conf.coldadc_settings.reg_27);
+  coldadc_conf->set_reg_29(conf.coldadc_settings.reg_29);
+  coldadc_conf->set_reg_30(conf.coldadc_settings.reg_30);
+  req.set_allocated_adc_conf(coldadc_conf);
+  
   wib::ConfigureWIB::ConfigureWIBPulser* wib_pulser_conf = new wib::ConfigureWIB::ConfigureWIBPulser();
   wib_pulser_conf->add_femb_en(conf.wib_pulser.enabled_0);
   wib_pulser_conf->add_femb_en(conf.wib_pulser.enabled_1);

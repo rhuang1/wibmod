@@ -13,6 +13,18 @@ local types = {
 
     list : s.sequence("List", self.value, doc="A list of digital values"),
 
+    coldadc_settings: s.record("ColdADCSettings", [
+    	s.field("reg_0", self.value, 35, doc="Register 0: sdc_bypassed", optional=true),
+	s.field("reg_4", self.value, 59, doc="Register 4: single-ended_input_mode", optional=true),
+	s.field("reg_24", self.value, 223, doc="Register 24: vrefp", optional=true),
+	s.field("reg_25", self.value, 51, doc="Register 25: vrefn", optional=true),
+	s.field("reg_26", self.value, 137, doc="Register 26: vcmo", optional=true),	
+	s.field("reg_27", self.value, 103, doc="Register 27: vcmi", optional=true),
+	s.field("reg_29", self.value, 39, doc="Register 29: ibuff0_cmos", optional=true),
+	s.field("reg_30", self.value, 39, doc="Register 30: ibuff1_cmos", optional=true)
+    ], doc="Customized ColdADC register settings"),
+	
+
     femb_settings: s.record("FEMBSettings", [
     
         s.field("enabled", self.bool, 1,
@@ -87,6 +99,8 @@ local types = {
         s.field("femb1", self.femb_settings, doc="Settings for FEMB in slot 1"),
         s.field("femb2", self.femb_settings, doc="Settings for FEMB in slot 2"),
         s.field("femb3", self.femb_settings, doc="Settings for FEMB in slot 3"),
+
+	s.field("coldadc_settings", self.coldadc_settings, doc="Custom register settings for ColdADC", optional=true),
 
 	s.field("wib_pulser", self.wib_pulser_settings, doc="Settings for WIB pulser")
     ], doc="WIB system settings (argument to settings)"),
