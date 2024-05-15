@@ -84,6 +84,14 @@ WIBConfigurator::populate_femb_conf(wib::ConfigureWIB::ConfigureFEMB *femb_conf,
     }
     femb_conf->add_line_driver(conf.line_driver.at(i));
   }
+
+  for (int i = 0; i < conf.pulse_channels.size(); i++) {
+    if (i > 15) {
+      TLOG() <<  "Warning: tried to pass more than 16 pulse_channel values to FEMB configuration";
+      break;
+    }
+    femb_conf->add_pulse_channels(conf.pulse_channels.at(i));
+  }
 }
 
 void 

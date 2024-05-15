@@ -13,6 +13,8 @@ local types = {
 
     list : s.sequence("List", self.value, doc="A list of digital values"),
 
+    bool_list : s.sequence("BoolList", self.bool, doc="A list of boolean values"),
+
     coldadc_settings: s.record("ColdADCSettings", [
     	s.field("reg_0", self.value, 35, doc="Register 0: sdc_bypassed", optional=true),
 	s.field("reg_4", self.value, 59, doc="Register 4: single-ended_input_mode", optional=true),
@@ -60,8 +62,9 @@ local types = {
                 doc="Length of strobe in 64MHz periods (pulser length 0-255)"),
 
 	s.field("line_driver", self.list, [],
-	 	doc="0 (Default), 1 (Short), 2 (25 m warm), 3 (35 m warm), 4 (25 m cold), 5 (35 m cold). Can submit up to 2 values for the two COLDATA.")
-                
+	 	doc="0 (Default), 1 (Short), 2 (25 m warm), 3 (35 m warm), 4 (25 m cold), 5 (35 m cold). Can submit up to 2 values for the two COLDATA."),
+
+	s.field("pulse_channels", self.bool_list, [], doc="Array of up to 16 true/false values, for whether to send pulser to each corresponding channel per LArASIC.")
     ], doc="FEMB channel settings"),
 
     wib_pulser_settings: s.record("WIBPulserSettings", [
